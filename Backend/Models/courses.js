@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 let courseSchema = new mongoose.Schema({
-    purchasedBy: {type: Schema.Types.ObjectId} , ref: 'users', require: true ,
     title: String,
     description: String,
     price: Number,
