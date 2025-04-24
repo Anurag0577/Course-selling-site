@@ -2,34 +2,34 @@ const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const admin = require('./Models/Admins');
-require('./Models/Admins')
-require('./Models/Users')
+const course = require('./Models/Courses');
+const user = require('./Models/Users');
 
-const app = express(); // Create an instance of express.
+const app = express();
 const PORT = 3000;
+const SECRET = 'aNuRaG';
 
-app.use(express.json()); // this tell we are going to use json in the server.
+app.use(express.json());
 
 mongoose.connect('mongodb+srv://anurag0577:anurag0577@cluster0.afdw2.mongodb.net/course-selling-db?retryWrites=true&w=majority&appName=Cluster0')
 .then(() => {
-    console.log('Database Connected!')
+    console.log('Database Connected!');
 })
 
-function generateToken(credentials){
+function authenticateUser(req, res, next){
+    let token = req.headers.Authorization.split(' ')[0];
+    let user = jwt.verify(token, SECRET );
+    req.user = user;
+    req.role = user.role;
+    next();
+}
+
+function generateToken(credentials, role){
     let payload = credentials;
-    let SECRET = 'aNuRaG'
+    
     let token = jwt.sign(payload, SECRET, {expiresIn: '24h'})
     return token;
 }
-
-// ADMIN ROUTES
-/*
-POST /admin/signup Description: Creates a new admin account. Input: { username: 'admin', password: 'pass' } Output: { message: 'Admin created successfully', token: 'jwt_token_here' }
-POST /admin/login Description: Authenticates an admin. It requires the admin to send username and password in the headers. Input: Headers: { 'username': 'admin', 'password': 'pass' } Output: { message: 'Logged in successfully', token: 'jwt_token_here' }
-POST /admin/courses Description: Creates a new course. Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }, Body: { title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true } Output: { message: 'Course created successfully', courseId: 1 }
-PUT /admin/courses/:courseId Description: Edits an existing course. courseId in the URL path should be replaced with the ID of the course to be edited. Input: Headers: { 'Authorization': 'Bearer jwt_token_here' }, Body: { title: 'updated course title', description: 'updated course description', price: 100, imageLink: 'https://updatedlinktoimage.com', published: false } Output: { message: 'Course updated successfully' }
-GET /admin/courses Description: Returns all the courses. Input: Headers: { 'Authorization': 'Bearer jwt_token_here' } Output: { courses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] } User Routes:
-*/
 
 app.post('/admin/signup', (req, res) => {
     try{
@@ -94,6 +94,60 @@ app.get('/admin/courses', authenticateUser, (req, res) => {
     res.status(201).json({allCourses})
 })
 
+app.post('/users/signup', (req, res) => {
+    let {username, email, password} = req.body;
+    let isUserExist = user.findOne({username});
+    if(isUserExist){
+        res.status(400).json("User already existed, please Login!");
+    }
+    let newUser = new user({username, email, password})
+    let saveUser = newUser.save()
+    .then(() => {
+        generateToken({username, role: 'user'})
+        res.status(201).json({message: "New user created successfully!", saveUser})
+    })
+    .catch((err) => {
+        console.log("Error: ", err )
+    })
+})
+
+
+app.post('/user/login', (req, res) => {
+    let {username, password} = req.body;
+    let isUserExist = user.findOne({username, password});
+    if(!isUserExist){
+        res.status(400).json('Account does not exist, please create new one.')
+    }
+    res.status(200).json("Login successfull!")
+})
+
+app.get('/user/courses', authenticateUser, (req, res) => {
+    let allCourses = course.find({})
+    .then(() => console.log('Course fetched successfully!'))
+    res.status(200).json(allCourses);
+})
+
+app.post('/users/courses/:courseId', authenticateUser, (req, res) => {
+    let _id = req.params.courseId;
+    let course = course.findOne({_id});
+    let currentUser = req.user;
+    currentUser.purchasedCourses.push(_id)
+    currentUser.save()
+    .then(() => {
+        res.status(200).json("Course purchased successfully!");
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+})
+
+app.get('/users/purchasedCourses', authenticateUser, (req, res) => {
+
+    let currentUser = user.findOne(req.user.username);
+    res.status(201).json("purchasedCourse: " , currentUser.purchasedCourses)
+
+})
+
 app.listen(PORT, () => {
-    console.log('Server Started!')
+    console.log('Server Started!');
 })
