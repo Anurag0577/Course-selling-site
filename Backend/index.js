@@ -17,7 +17,7 @@ mongoose.connect('mongodb+srv://anurag0577:anurag0577@cluster0.afdw2.mongodb.net
 })
 
 function authenticateUser(req, res, next){
-    let token = req.headers.Authorization.split(' ')[0];
+    let token = req.headers.Authorization.split(' ')[1];
     let user = jwt.verify(token, SECRET );
     req.user = user;
     req.role = user.role;
@@ -31,121 +31,218 @@ function generateToken(credentials, role){
     return token;
 }
 
+
+// PROPER WAY TO WRITE
+app.post('/admin/signup', (req, res) => {
+    const { username, email, password } = req.body;
+    
+    // Check if admin already exists
+    admin.findOne({ username })
+        .then(existingAdmin => {
+            if (existingAdmin) {
+                res.status(400).json({ message: 'Admin already exists, please login.' });
+            } else {
+                // Create new admin
+                const newAdmin = new admin({ username, email, password });
+                return newAdmin.save();
+            }
+        })
+        .then(savedAdmin => {
+            if (savedAdmin) {
+                const token = generateToken({ username, role: 'admin' });
+                res.status(201).json({ 
+                    message: 'Admin created successfully', 
+                    token 
+                });
+            }
+        })
+        .catch(err => {
+            console.error('Signup error:', err);
+            res.status(500).json({ 
+                message: 'Signup failed!',
+                error: err.message 
+            });
+        });
+});
+
+/*
+    BAD CODE
 app.post('/admin/signup', (req, res) => {
     try{
         let {username, email, password} = req.body;
-        let existingUser = admin.findOne({username});
-        if(existingUser){
-            return res.status(400).json({ message: 'Admin already exists' });
-        }
+        let existingUser = admin.findOne({username})
+        .then(() => {
+            if(existingUser){
+                return res.status(400).json({ message: 'Admin already exists, please login.' });
+            }
+        })
         let newAdmin = new admin({username, email, password});    
         newAdmin.save()
-
     .then(() => {
         console.log("Admin created successfully!");
         let token = generateToken({username, role: 'admin'});
         res.status(201).json({message: 'Admin login successfully', Token: token})
     })
+    .catch(() => console.log('Admin does not save in the backed!'))
     } catch(err){
         console.log({error: err, message: 'Signup failed!'})
     }
     
 })
+*/
+
 
 app.post('/admin/login', (req, res) => {
-    try{
+
+    // IMPORATNT : Either use promise with catch or try/catch with async/await
+
         let {username, password} = req.body;
-        let existingUser = admin.findOne({username, password})
-        .then(() => {
-            console.log('Admin login successfully!')
-            let token = generateToken({username, role: 'admin'})
-            res.status(201).json({message: 'Admin login successfull', Token: token})
+        admin.findOne({username, password})
+        .then( existingAdmin => {
+            if(!existingAdmin){
+                res.status(400).json({message: "Invalid username or passsword!"})
+            }else{
+                let token = generateToken({username, role: 'admin'})
+                res.status(200).json({message: 'Admin login successfull', token})
+            }
         })
-        if(!existingUser){
-            res.status(400).json({message: 'Admin does not exist, please signup.'});
-        }
-    } catch(err){
-        console.log({message: 'Login issue!', Error: err})
-    }
+    .catch((err) => res.status(500).json({message: "Login failed!" , error: err.message}));
 })
 
+
 app.post('/admin/courses', authenticateUser,(req,  res) => {
+    if(req.role !== 'admin'){
+        res.status(403).json({message: 'Unauthorized: Admin access required'})
+    }
     let {title, description, price, image_link} = req.body;
+
+    // validate required fields
+    if (!title || !description || !price) {
+        return res.status(400).json({message: 'Missing required fields'});
+    }
+
     let newCourse = new course({title, description, price, image_link});
     newCourse.save()
-    .then(() => {
-        console.log('New course created successfully!');
-        req.status(201).json({message: 'Course created successfully!'})
+    .then(savedCourses => {
+        res.status(201).json({message: 'Course created successfully!', course: savedCourses})
     })
+    .catch(error => res.status(500).json({message: "Information not saved!" , Error: err}))
 })
 
 app.put('/admin/courses/:courseId', authenticateUser, (req, res) => {
+    if(req.role !== 'admin'){
+        res.status(403).json({message: 'Unauthorized: Admin access required'})
+    }
     let courseId = req.params.courseId;
     let updatedCourse = req.body;
-    let courseContent = course.findOneAndUpdate(courseId, updatedCourse, {new : true})
-    if(!courseContent){
-        res.status(400).json({message: "Updation failed!"})
-    }
-    res.status(201).json({message: "course updated successfully!"})
+    course.findOneAndUpdate({_id: courseId}, updatedCourse, {new : true})
+    .then(updatedCourse => {
+        if (!updatedCourse) {
+            return res.status(404).json({message: "Course not found"});
+        }
+
+        res.status(200).json({message: "Course updated successfully!", updatedCourse})
+    })
+    .catch(error => {
+        res.status(500).json({message: "Course not updated in the backend", error: err.message})
+    })
 })
 
 app.get('/admin/courses', authenticateUser, (req, res) => {
-    let allCourses = course.find({})
-    res.status(201).json({allCourses})
+    if(req.role !== 'admin'){
+        return res.status(403).json({message: 'Unauthorized: Admin access required'});
+    }
+    course.find({})
+    .then(courses => {
+        res.status(200).json(courses)
+    })
+    .catch(err => res.status(500).json({message: 'Find request failed!', eerror: err.message}))
 })
+
 
 app.post('/users/signup', (req, res) => {
     let {username, email, password} = req.body;
-    let isUserExist = user.findOne({username});
-    if(isUserExist){
-        res.status(400).json("User already existed, please Login!");
-    }
-    let newUser = new user({username, email, password})
-    let saveUser = newUser.save()
-    .then(() => {
-        generateToken({username, role: 'user'})
-        res.status(201).json({message: "New user created successfully!", saveUser})
+    user.findOne({username})
+    .then(isFound => {
+        if(isFound){
+            res.status(400).json({message: "User already existed, please login!"})
+        } else {
+            let newUser = new user({username, email, password})
+            newUser.save()
+        }
     })
-    .catch((err) => {
-        console.log("Error: ", err )
+    .then(data => {
+        if(data){
+            let token = generateToken({username: data.username, role:'user'})
+            res.status(201).json({message: 'Signup successfull', token});
+        }
     })
+    .catch((err) => res.status(500).json({message: "Signup failed!", Error: err.message}) )
 })
 
 
 app.post('/user/login', (req, res) => {
     let {username, password} = req.body;
-    let isUserExist = user.findOne({username, password});
-    if(!isUserExist){
-        res.status(400).json('Account does not exist, please create new one.')
-    }
-    res.status(200).json("Login successfull!")
+    user.findOne({username, password})
+    .then(isExist => {
+        if(!isExist){
+            res.status(400).json({message: 'Invalid username or password!'})
+        }
+        let token = generateToken({username, role: 'user'})
+        res.status(200).json({message: "Login successfull", token})
+    })
+    .catch(err => {
+        res.status(500).json({message: 'Login failed', Error: err.message})
+    })
 })
 
 app.get('/user/courses', authenticateUser, (req, res) => {
-    let allCourses = course.find({})
-    .then(() => console.log('Course fetched successfully!'))
-    res.status(200).json(allCourses);
+    course.find({})
+    .then(courses => {
+        res.status(200).json(courses)
+    })
+    .catch(err => res.status(500).json({message: 'Find request failed!', eerror: err.message}))
 })
 
 app.post('/users/courses/:courseId', authenticateUser, (req, res) => {
-    let _id = req.params.courseId;
-    let course = course.findOne({_id});
-    let currentUser = req.user;
-    currentUser.purchasedCourses.push(_id)
-    currentUser.save()
-    .then(() => {
-        res.status(200).json("Course purchased successfully!");
+    let id = req.params.courseId;
+    course.findById({id})
+    .then(isFound => {
+        if(!isFound){
+            res.status(400).json({message: 'Course does not exist'})
+        } else {
+            user.findOne({username: req.user.username})
+            .then( currentUser => {
+                if(!currentUser) {
+                    return res.status(404).json({message: 'User not found'});
+                }
+                currentUser.purchasedCourses.push(_id)
+                currentUser.save()
+            })
+
+        }
+    })
+    .then(data => {
+        res.status(200).json({message: "Course purchased successfully!"});
     })
     .catch((err) => {
-        console.log(err);
+        res.status(500).json({message: "Purchase failed", Error: err.message})
     })
 })
 
 app.get('/users/purchasedCourses', authenticateUser, (req, res) => {
 
-    let currentUser = user.findOne(req.user.username);
-    res.status(201).json("purchasedCourse: " , currentUser.purchasedCourses)
-
+    user.findOne({username: req.user.username})
+    .then(currentUser => {
+        if(!currentUser){
+            res.status(200).json('Does not have any purchased course!')
+        }
+        res.status(201).json({message: "Purchased courses retrieved successfully",
+ purchasedCourses:  currentUser.purchasedCourses})
+    })
+    .catch(err => {
+        res.status(500).json({message: 'Request failed!', Error: err.message})
+    })
 })
 
 app.listen(PORT, () => {
