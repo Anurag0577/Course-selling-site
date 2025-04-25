@@ -8,6 +8,6 @@ let courseSchema = new mongoose.Schema({
     published: {type: Boolean, default: false}
 })
 
-let course = mongoose.model('course', adminSchema);
+let course = mongoose.model('course', courseSchema);
 
 module.exports = course;

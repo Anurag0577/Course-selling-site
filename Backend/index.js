@@ -16,13 +16,43 @@ mongoose.connect('mongodb+srv://anurag0577:anurag0577@cluster0.afdw2.mongodb.net
     console.log('Database Connected!');
 })
 
-function authenticateUser(req, res, next){
-    let token = req.headers.Authorization.split(' ')[1];
-    let user = jwt.verify(token, SECRET );
-    req.user = user;
-    req.role = user.role;
-    next();
-}
+function authenticateUser(req, res, next) {
+    // Check if Authorization header exists
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Authorization header missing' });
+    }
+  
+    // Verify header format and extract token
+    const tokenMatch = authHeader.match(/^Bearer\s+(.+)$/i);
+    if (!tokenMatch) {
+      return res.status(401).json({ error: 'Invalid Authorization header format' });
+    }
+    const token = tokenMatch[1];
+  
+    try {
+      // Verify JWT
+      const user = jwt.verify(token, SECRET);
+      if (!user || !user.role) {
+        return res.status(401).json({ error: 'Invalid token payload' });
+      }
+  
+      // Attach user and role to request
+      req.user = user;
+      req.role = user.role;
+      next();
+    } catch (error) {
+      // Handle specific JWT errors
+      if (error.name === 'TokenExpiredError') {
+        return res.status(401).json({ error: 'Token expired' });
+      }
+      if (error.name === 'JsonWebTokenError') {
+        return res.status(401).json({ error: 'Invalid token' });
+      }
+      // Generic error for other cases
+      return res.status(401).json({ error: 'Authentication failed' });
+    }
+  }
 
 function generateToken(credentials, role){
     let payload = credentials;
@@ -33,8 +63,16 @@ function generateToken(credentials, role){
 
 
 // PROPER WAY TO WRITE
+// Working
 app.post('/admin/signup', (req, res) => {
     const { username, email, password } = req.body;
+
+    // You need to check whether all fields are there or not
+    if (!username || !email || !password) {
+        return res.status(400).json({ 
+            message: 'All fields are required: username, email, and password' 
+        });
+    }
     
     // Check if admin already exists
     admin.findOne({ username })
@@ -109,7 +147,7 @@ app.post('/admin/login', (req, res) => {
     .catch((err) => res.status(500).json({message: "Login failed!" , error: err.message}));
 })
 
-
+// CREATE NEW COURSE
 app.post('/admin/courses', authenticateUser,(req,  res) => {
     if(req.role !== 'admin'){
         res.status(403).json({message: 'Unauthorized: Admin access required'})
@@ -129,6 +167,7 @@ app.post('/admin/courses', authenticateUser,(req,  res) => {
     .catch(error => res.status(500).json({message: "Information not saved!" , Error: err}))
 })
 
+// EDIT EXISTING COURSE
 app.put('/admin/courses/:courseId', authenticateUser, (req, res) => {
     if(req.role !== 'admin'){
         res.status(403).json({message: 'Unauthorized: Admin access required'})
@@ -148,6 +187,7 @@ app.put('/admin/courses/:courseId', authenticateUser, (req, res) => {
     })
 })
 
+// GET ALL THE COURES
 app.get('/admin/courses', authenticateUser, (req, res) => {
     if(req.role !== 'admin'){
         return res.status(403).json({message: 'Unauthorized: Admin access required'});
@@ -169,19 +209,18 @@ app.post('/users/signup', (req, res) => {
         } else {
             let newUser = new user({username, email, password})
             newUser.save()
+            .then(data => {
+                let token = generateToken({username: data.username, role:'user'})
+                res.status(201).json({message: 'Signup successfull', token});
+        })
         }
     })
-    .then(data => {
-        if(data){
-            let token = generateToken({username: data.username, role:'user'})
-            res.status(201).json({message: 'Signup successfull', token});
-        }
-    })
+    
     .catch((err) => res.status(500).json({message: "Signup failed!", Error: err.message}) )
 })
 
 
-app.post('/user/login', (req, res) => {
+app.post('/users/login', (req, res) => {
     let {username, password} = req.body;
     user.findOne({username, password})
     .then(isExist => {
@@ -205,30 +244,38 @@ app.get('/user/courses', authenticateUser, (req, res) => {
 })
 
 app.post('/users/courses/:courseId', authenticateUser, (req, res) => {
-    let id = req.params.courseId;
-    course.findById({id})
-    .then(isFound => {
-        if(!isFound){
-            res.status(400).json({message: 'Course does not exist'})
-        } else {
-            user.findOne({username: req.user.username})
-            .then( currentUser => {
-                if(!currentUser) {
-                    return res.status(404).json({message: 'User not found'});
-                }
-                currentUser.purchasedCourses.push(_id)
-                currentUser.save()
-            })
-
-        }
-    })
-    .then(data => {
-        res.status(200).json({message: "Course purchased successfully!"});
-    })
-    .catch((err) => {
-        res.status(500).json({message: "Purchase failed", Error: err.message})
-    })
-})
+    const courseId = req.params.courseId;
+    
+    course.findById(courseId)
+        .then(foundCourse => {
+            if (!foundCourse) {
+                return res.status(404).json({message: 'Course does not exist'});
+            }
+            
+            return user.findOne({username: req.user.username})
+                .then(currentUser => {
+                    if (!currentUser) {
+                        return res.status(404).json({message: 'User not found'});
+                    }
+                    
+                    // Check if course is already purchased
+                    if (currentUser.purchasedCourses.includes(courseId)) {
+                        return res.status(400).json({message: 'Course already purchased'});
+                    }
+                    
+                    // Add course to purchased courses
+                    currentUser.purchasedCourses.push(courseId);
+                    return currentUser.save();
+                })
+                .then(updatedUser => {
+                    res.status(200).json({message: "Course purchased successfully!"});
+                });
+        })
+        .catch(err => {
+            console.error('Purchase error:', err);
+            res.status(500).json({message: "Purchase failed", error: err.message});
+        });
+});
 
 app.get('/users/purchasedCourses', authenticateUser, (req, res) => {
 
