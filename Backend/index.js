@@ -16,6 +16,7 @@ mongoose.connect('mongodb+srv://anurag0577:anurag0577@cluster0.afdw2.mongodb.net
     console.log('Database Connected!');
 })
 
+// this function is used to authenticate users
 function authenticateUser(req, res, next) {
     // Check if Authorization header exists
     const authHeader = req.headers.authorization || req.headers.Authorization;
