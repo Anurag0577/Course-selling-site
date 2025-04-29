@@ -4,29 +4,35 @@ import { useState } from 'react';
 import './Login.css'
 function Login() {
 
-  let {username, setUsername} = useState('');
-  let {password, setPassword} = useState('');
+  let [username, setUsername] = useState('');
+  let [password, setPassword] = useState('');
 
   function submitTodo(){
     try {
-    fetch('http://localhost:3000/login', {
+    fetch('http://localhost:3000/admin/login', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
       },
-      body: {
+
+    // Remember whenever you are sending fetch req to backend make sure you convert this body tag into json string something like "username": "usename", "password": "password". If you dont convert it the js object will send then.
+      body: JSON.stringify({
         username,
         password
-      }
+      })
     })
     .then(response => {
-      console.log()
-      let token = response.token;
+      // and after getting responce you have to change it back to js object.
+      return response.json()
+    })
+    .then(data => {
+      console.log("Got response!")
+      let token = data.token;
       localStorage.setItem('token', token)
     })}
     catch(error){
       console.log({
-        message: 'Fetching failed!',
+        message: 'Login failed!',
         error: error
       });
     }
@@ -42,10 +48,11 @@ function Login() {
           </div>
           <div className="form-container">
             <label htmlFor="username-input" className="username-label">Username</label>
-            <input type="text" placeholder="John" id="username-input" value={username} onChange={(e) => setUsername(e.value)} />
+            <input type="text" placeholder="John" id="username-input" value={username} onChange={(e) => setUsername(e.target.value)} />
             <label htmlFor="pass-input" className="pass-label">Password</label>
-            <input type="password" id="pass-input" value={password} onChange={(e) => setPassword(e.value)}/>
-            <div className='login-btn' onClick={() => submitTodo}>Login account</div>
+            <input type="password" id="pass-input" value={password} onChange={(e) => setPassword(e.target.value)}/>
+            <div className='login-btn' onClick={() => submitTodo()}>Login Account</div>
+            <small style={{display: 'block', textAlign: 'center', marginTop: "10px"}}>New to the website? <a style={{color: 'skyblue'}}>Create Account</a></small>
           </div>
         </div>
       </div>
@@ -53,4 +60,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Login

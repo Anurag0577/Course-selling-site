@@ -4,12 +4,14 @@ const jwt = require('jsonwebtoken');
 const admin = require('./Models/Admins');
 const course = require('./Models/Courses');
 const user = require('./Models/Users');
+const cors = require('cors')
 
 const app = express();
 const PORT = 3000;
 const SECRET = 'aNuRaG';
 
 app.use(express.json());
+app.use(cors())
 
 mongoose.connect('mongodb+srv://anurag0577:anurag0577@cluster0.afdw2.mongodb.net/course-selling-db?retryWrites=true&w=majority&appName=Cluster0')
 .then(() => {

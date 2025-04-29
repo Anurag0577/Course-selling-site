@@ -48,7 +48,7 @@ h1, h2, h3, p, strong, small, h4, span{
 .login-description{
     /* font-size: 16px; */
     margin-top: 5px;
-    letter-spacing: -0.7px;
+    /* letter-spacing: -0.7px; */
 }
 
 .username-label, .pass-label{
@@ -66,6 +66,7 @@ input{
     padding: 15px;
     border: 1px solid lightgray;
     border-radius: 10px;
+    color: white;
 }
 
 .login-btn{
