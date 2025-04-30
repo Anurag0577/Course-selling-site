@@ -8,7 +8,7 @@
   box-sizing: border-box;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
-  background: #030712;
+
 }
 
 h1, h2, h3, p, strong, small, h4, span{
@@ -21,10 +21,11 @@ h1, h2, h3, p, strong, small, h4, span{
     display: flex;
     align-items: center;
     color: white;
+    background: #030712;
 }
 
 .signup-form{
-    border: 1px solid lightgray;
+    border: 1px solid #3C3D37;
     border-radius: 10px;
     width: 380px;
     min-width: 300px;
@@ -64,13 +65,13 @@ h1, h2, h3, p, strong, small, h4, span{
 
 input{
     padding: 15px;
-    border: 1px solid lightgray;
+    border: 1px solid #3C3D37;
     border-radius: 10px;
 }
 
 .signup-btn{
     padding: 15px;
-    background-color: white;
+    background-color: #90C67C;
     color: black;
     text-align: center;
     border-radius: 10px;

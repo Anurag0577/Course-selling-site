@@ -39,6 +39,27 @@ function AllCourses() {
             price: 24.99,
             image_link: "https://images.pexels.com/photos/1051838/pexels-photo-1051838.jpeg?auto=compress&cs=tinysrgb&w=800",
             published: true
+        },
+        {
+            title: "Master Web Development with React",
+            description: "Dive into modern web development with this comprehensive course on React. Learn to build dynamic, responsive applications with hands-on projects, from components to state management.",
+            price: 49.99,
+            image_link: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=800",
+            published: true
+        },
+        {
+            title: "Introduction to Digital Photography",
+            description: "Capture stunning photos with this beginner-friendly course. Explore camera settings, composition techniques, and editing basics to elevate your photography skills.",
+            price: 29.99,
+            image_link: "https://images.pexels.com/photos/368893/pexels-photo-368893.jpeg?auto=compress&cs=tinysrgb&w=800",
+            published: true
+        },
+        {
+            title: "Data Science with Python",
+            description: "Unlock the power of data with this in-depth course on Python for data science. Master libraries like Pandas, NumPy, and Matplotlib through real-world projects and analysis.",
+            price: 79.99,
+            image_link: "https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg?auto=compress&cs=tinysrgb&w=800",
+            published: true
         }]
 
     return <>
@@ -56,9 +77,9 @@ function AllCourses() {
                             <img src={course.image_link} alt="Course Thumbnail"></img>
                             <div className='course-content'>
                                 <div className='courseTitle'>{course.title}</div>
-                                <div className='courseDescription'>{course.description}</div>
+                                <small className='courseDescription'>{course.description}</small>
                                 <div className='price-btn'>
-                                    <div className='coursePrice'>Price: {course.price}</div>
+                                    <div className='coursePrice'>Price: ${course.price}</div>
                                     <div className='courseBuyBtn'>Buy Now</div>
                                 </div>
 

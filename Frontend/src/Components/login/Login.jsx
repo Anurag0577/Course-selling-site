@@ -52,7 +52,7 @@ function Login() {
             <label htmlFor="pass-input" className="pass-label">Password</label>
             <input type="password" id="pass-input" value={password} onChange={(e) => setPassword(e.target.value)}/>
             <div className='login-btn' onClick={() => submitTodo()}>Login Account</div>
-            <small style={{display: 'block', textAlign: 'center', marginTop: "10px"}}>New to the website? <a style={{color: 'skyblue'}}>Create Account</a></small>
+            <small style={{display: 'block', textAlign: 'center', marginTop: "10px"}}>New to the website? <a style={{color: '#90C67C'}}>Create Account</a></small>
           </div>
         </div>
       </div>

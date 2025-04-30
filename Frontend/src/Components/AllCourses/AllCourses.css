@@ -1,3 +1,8 @@
+.allCoursePage{
+      background: #181C14;
+      padding: 0 7rem;
+}
+
 .allCoursePage-container{
     display: flex;
     flex-direction: column;
@@ -15,4 +20,117 @@
     display: flex;
     justify-content: left;
     column-gap: 2rem;
+    margin: 2rem 0;
+}
+
+.allCourses-btn, .purchasedCourses-btn{
+    padding: 10px 15px;
+    background-color: #90C67C;
+    color: black;
+    text-align: center;
+    border-radius: 10px;
+    /* font-weight: bold; */
+    letter-spacing: -0.7px;
+    cursor: pointer;
+    transition: background-color 0.2s ease ;
+}
+
+.allCourses-btn:hover, .purchasedCourses-btn:hover{
+    background-color: #e4ffd9;
+}
+
+.courseCardContainer{
+    padding: 0 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    row-gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+
+
+/* Assuming you're using Tailwind CSS, but adding custom styles for specific needs */
+.course-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 2px solid #3C3D37;
+    padding: 5px;
+    overflow: hidden;
+    max-width: 24%; 
+    height: auto; 
+}
+
+/* Image styling */
+.course-card img {
+    width: 100%;
+    height: 180px; /* Fixed height for consistency */
+    object-fit: cover; /* Ensure image fits nicely */
+    border: 1px solid #3C3D37;
+    border-radius: 10px;
+}
+
+/* Content container */
+.course-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Takes remaining space */
+    padding: 16px; /* Equivalent to Tailwind's p-4 */
+    background-color: transparent;
+}
+
+/* Title styling */
+.courseTitle {
+    font-size: 1.2rem; /* Requirement: Title size 1.5rem */
+    font-weight: 600; /* Equivalent to Tailwind's font-semibold */
+    margin-bottom: 8px; 
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limits to 4 lines, adjust based on space */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+/* Description styling */
+.courseDescription {
+    font-size: 0.875rem; /* Smaller size for description */
+    color: #6b7280; /* Tailwind's gray-500 for different color */
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Limits to 4 lines, adjust based on space */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+/* Price and button container */
+.price-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Pushes to bottom of card */
+    padding-top: 12px;
+}
+
+/* Price styling */
+.coursePrice {
+    font-size: 1rem;
+    font-weight: 500; /* Equivalent to Tailwind's font-medium */
+    color: white; /* Tailwind's gray-800 */
+}
+
+/* Buy button styling */
+.courseBuyBtn {
+    background-color: #90C67C; /* Tailwind's blue-600 */
+    color: #000; /* Tailwind's white */
+    padding: 8px 16px; /* Equivalent to Tailwind's py-2 px-4 */
+    border-radius: 4px; /* Equivalent to Tailwind's rounded */
+    font-size: 0.875rem; /* Equivalent to Tailwind's text-sm */
+    cursor: pointer;
+    transition: background-color 0.2s ease; /* Smooth hover effect */
+}
+
+.courseBuyBtn:hover {
+    background-color: #e4ffd9; /* Tailwind's blue-700 */
 }

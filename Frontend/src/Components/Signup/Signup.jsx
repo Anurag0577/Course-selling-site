@@ -55,7 +55,7 @@ function Signup(){
 
             <input type="password" id="pass-input" value = {password} onChange={(e) => setPassword(e.target.value)} />
             <div className='signup-btn' onClick={() => createAccount()}>Create Account</div>
-            <small style={{display: 'block', textAlign: 'center'}}>Already have an account? <a style={{color: 'skyblue'}}>Login</a></small>
+            <small style={{display: 'block', textAlign: 'center'}}>Already have an account? <a style={{color: '#90C67C'}}>Login</a></small>
           </div>
         </div>
       </div>
