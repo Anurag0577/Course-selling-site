@@ -29,7 +29,10 @@ function Signup(){
       localStorage.setItem('token', token)
     })
     .catch((error) => {
-      console.log("Signup failed!")
+      console.log( {
+        message: "Signup failed!",
+        Error: error
+      } )
     })
   }
     return <>
