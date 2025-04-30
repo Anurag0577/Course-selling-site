@@ -5,12 +5,13 @@ import './App.css';
 import Signup from './Components/Signup/Signup.jsx';
 import Login from './Components/login/Login.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import AllCourses from './Components/AllCourses/AllCourses.jsx';
 
 function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <Login />,
+      element: <AllCourses />,
     },
     {
       path: '/admin/login',
