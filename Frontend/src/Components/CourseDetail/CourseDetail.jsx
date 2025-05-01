@@ -24,10 +24,9 @@ function CourseDetail() {
                 <div className='course-page-card'>
                         <img src={course.image_link} alt="Course Thumbnail" />
                         <div className='course-page-content'>
-                            <div className='course-page-card-title'>Web dev + Devops Cohort</div>
                             <div className='course-page-price-btn'>
                                 <div className='course-page-price-container'>
-                                    <div className='course-pagePrice'>₹{course.price}</div>
+                                    <div className='course-pagePrice'>Price: ₹{course.price}</div>
                                 </div>
                                 <div className='course-pageBuyBtn'>Buy Now</div>
                             </div>
