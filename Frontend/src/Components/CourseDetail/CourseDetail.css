@@ -1,0 +1,177 @@
+/* General reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #181C14;
+    color: white;
+  }
+  
+  /* Course Page Container */
+  .course-page {
+
+    margin: 0 auto;
+  }
+  
+  /* Title Container */
+  .course-page-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 30vh;
+    margin-bottom: 40px;
+    background-color: #90C67C;
+  }
+  
+  .course-page-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: black;
+    line-height: 1.2;
+    letter-spacing: -3px;
+  }
+  
+  /* Syllabus Part (Flex container for description and card) */
+  .course-page-syllabus-part {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0 4rem;
+  }
+  
+  /* Syllabus Description */
+  .course-page-syllabus {
+    flex: 1;
+    min-width: 300px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: white;
+    /* background-color: #3C3D37; */
+    padding: 30px;
+
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Course Card */
+  .course-page-card {
+    flex: 0 0 350px;
+    background-color: #3C3D37;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .course-page-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  .course-page-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  /* Card Content */
+  .course-page-content {
+    padding: 20px;
+  }
+  
+  .course-page-card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 15px;
+  }
+  
+  /* Price and Buy Button Container */
+  .course-page-price-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+    gap: 20px;
+    flex-direction: column;
+  }
+  
+  .course-page-price-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .course-pagePrice {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #90C67C;
+    text-align: center;
+  }
+  
+  /* Buy Button */
+  .course-pageBuyBtn {
+    background-color: #90C67C;
+    color: black;
+    padding: 12px 24px;
+    border-radius: 80x;
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .course-pageBuyBtn:hover {
+    background-color: #90C67C;
+    transform: scale(1.05);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .course-page-syllabus-part {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .course-page-card {
+      flex: 0 0 100%;
+      max-width: 400px;
+    }
+  
+    .course-page-title {
+      font-size: 2rem;
+    }
+  
+    .course-page-syllabus {
+      padding: 20px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .course-page {
+      padding: 20px 15px;
+    }
+  
+    .course-page-title {
+      font-size: 1.8rem;
+    }
+  
+    .course-page-card-title {
+      font-size: 1.3rem;
+    }
+  
+    .course-pagePrice {
+      font-size: 1.5rem;
+    }
+  
+    .course-pageBuyBtn {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+    }
+  }

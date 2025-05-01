@@ -80,7 +80,7 @@ function AllCourses() {
                                 <small className='courseDescription'>{course.description}</small>
                                 <div className='price-btn'>
                                     <div className='coursePrice'>Price: ${course.price}</div>
-                                    <div className='courseBuyBtn'>Buy Now</div>
+                                    <div className='courseBuyBtn'>View Details</div>
                                 </div>
 
                             </div>

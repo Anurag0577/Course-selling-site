@@ -6,12 +6,13 @@ import Signup from './Components/Signup/Signup.jsx';
 import Login from './Components/login/Login.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AllCourses from './Components/AllCourses/AllCourses.jsx';
+import CourseDetail from './Components/CourseDetail/CourseDetail.jsx';
 
 function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <AllCourses />,
+      element: <CourseDetail />,
     },
     {
       path: '/admin/login',
