@@ -1,23 +1,44 @@
 import React from 'react'
 import { useState, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom'
 import './AllCourses.css'
 
 function AllCourses() {
-    let [courses, getCourses] = useState('')
-    function getCourses(){
-        fetch('http://localhost:3000/courses', {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json'
-            }
-        })
-        .then((response) => {
-            return response.json;
-        })
-        .then((data) => {
-            getCourses(data);
-        })
+    let [courses, setCourses] = useState([]);
+    let navigate = useNavigate();
+
+    function viewCourse(courseId){
+        navigate(`./courses/${courseId}`)
     }
+
+    useEffect(() => {
+        function getCourses(){
+
+            try{
+                fetch('http://localhost:3000/courses', {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    setCourses(data);
+                })
+             } catch(error){
+                console.log({Error: error,
+                    message: "Courses fetching failed!"
+                })
+            }
+            
+        }
+        getCourses();
+    }, []
+         // passing empty array as a dependency, now it will run only when dom mount, means only once.
+    )
+    
 
 
 
@@ -30,8 +51,8 @@ function AllCourses() {
                     <div className='purchasedCourses-btn'>Purchased Courses</div>
                 </div>
                 <div className='courseCardContainer'>
-                   {
-                    courses.map((course) => {
+                   { (courses.length === 0) ? (<div> No courses available!</div>) : 
+                    (courses.map((course) => {
                         return (<div className='course-card' key={course.title} >
                             <img src={course.image_link} alt="Course Thumbnail"></img>
                             <div className='course-content'>
@@ -39,15 +60,18 @@ function AllCourses() {
                                 <small className='courseDescription'>{course.description}</small>
                                 <div className='price-btn'>
                                     <div className='coursePrice'>Price: ${course.price}</div>
-                                            <div className='courseBuyBtn'>View Details</div>
+                                            <div className='courseBuyBtn' onClick={() => viewCourse(course._id)}>View Details</div>
                                 </div>
 
                             </div>
                             
 
                             </div>)
-})
+}))
                    } 
+                   
+                   
+                    
                 </div>
             </div>
         </div>
@@ -55,6 +79,7 @@ function AllCourses() {
 
 
 }
+
 
 export default AllCourses;
 
