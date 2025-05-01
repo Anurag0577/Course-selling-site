@@ -1,14 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import './CourseDetail.css'
 
 function CourseDetail() {
     // Mock course data
-    const course = {
-        image_link: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=800",
-        title: 'Complete Web development + DevOps Cohort',
-        price: 4869,
-        description: 'In the Web Development Cohort, we’ll be diving deep into the MERN stack from the basics. The goal is for you to be able to understand ANY MERN codebase out there.\n\nWe’ll also be diving into Devops, both basic and advance'
-    };
+    const [course, setCourse] = useState([])
+    let {id} = useParams();
+
+    useEffect(()=> {
+        function getCourseDetails(){
+            fetch(`http://localhost:3000/courses/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setCourse(data);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        }
+        getCourseDetails()
+    }, []);
+    
 
     return (
         <>

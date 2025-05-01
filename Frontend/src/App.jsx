@@ -21,7 +21,7 @@ function App() {
     },
     {
       path: '/courses/:id',
-      element: <Signup />,
+      element: <CourseDetail />,
     }
   ]);
 

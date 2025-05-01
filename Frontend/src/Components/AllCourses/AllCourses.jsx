@@ -8,7 +8,7 @@ function AllCourses() {
     let navigate = useNavigate();
 
     function viewCourse(courseId){
-        navigate(`./courses/${courseId}`)
+        navigate(`/courses/${courseId}`)
     }
 
     useEffect(() => {
