@@ -191,10 +191,7 @@ app.put('/admin/courses/:courseId', authenticateUser, (req, res) => {
 })
 
 // GET ALL THE COURES
-app.get('/admin/courses', authenticateUser, (req, res) => {
-    if(req.role !== 'admin'){
-        return res.status(403).json({message: 'Unauthorized: Admin access required'});
-    }
+app.get('/courses', (req, res) => {
     course.find({})
     .then(courses => {
         res.status(200).json(courses)
