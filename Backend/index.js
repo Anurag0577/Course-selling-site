@@ -292,6 +292,16 @@ app.get('/users/purchasedCourses', authenticateUser, (req, res) => {
     })
 })
 
+app.get('/courses/:id', (req, res) => {
+    let courseId = req.params.id;
+    course.findById(courseId)
+    .then((response) => {
+        console.log(response);
+        res.json(response);
+        
+    })
+})
+
 app.listen(PORT, () => {
     console.log('Server Started!');
 })
