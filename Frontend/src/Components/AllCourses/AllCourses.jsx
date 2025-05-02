@@ -48,7 +48,7 @@ function AllCourses() {
                 <div className='allCourse-heading'>Courses</div>
                 <div className='filterBtn'>
                     <div className='allCourses-btn'>All Courses</div>
-                    <div className='purchasedCourses-btn'>Purchased Courses</div>
+                    <div className='purchasedCourses-btn' onClick={()=> navigate('/users/purchasedCourses')} >Purchased Courses</div>
                 </div>
                 <div className='courseCardContainer'>
                    { (courses.length === 0) ? (<div> No courses available!</div>) : 
