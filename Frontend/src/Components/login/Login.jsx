@@ -2,14 +2,15 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import './Login.css'
+import { useNavigate } from 'react-router-dom';
 function Login() {
-
+  let navigate = useNavigate();
   let [username, setUsername] = useState('');
   let [password, setPassword] = useState('');
 
   function submitTodo(){
     try {
-    fetch('http://localhost:3000/admin/login', {
+    fetch('http://localhost:3000/users/login', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -29,6 +30,8 @@ function Login() {
       console.log("Got response!")
       let token = data.token;
       localStorage.setItem('token', token)
+      console.log(token)
+      navigate('/courses');
     })}
     catch(error){
       console.log({

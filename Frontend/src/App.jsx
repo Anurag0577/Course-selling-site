@@ -25,8 +25,12 @@ function App() {
       element: <CourseDetail />,
     },
     {
-      path: '/user/purchasedCourses',
+      path: '/users/purchasedCourses',
       element: <PurchasedCourses />
+    },
+    {
+      path: '/users/login',
+      element: <Login />
     }
   ]);
 
