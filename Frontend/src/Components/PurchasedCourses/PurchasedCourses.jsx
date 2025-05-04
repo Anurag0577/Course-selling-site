@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 function PurchasedCourses() {
     const [purchasedCourses, setPurchasedCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
 
@@ -16,6 +17,7 @@ function PurchasedCourses() {
     }
 
     useEffect(() => {
+        // First, fetch the user's purchased course IDs
         fetch('http://localhost:3000/users/purchasedCourses', {
             method: 'GET',
             headers: {
@@ -30,17 +32,37 @@ function PurchasedCourses() {
             return response.json();
         })
         .then(data => {
-            console.log('API Response:', data);
-            if (data.purchasedCourses) {
-                setPurchasedCourses(data.purchasedCourses);
+            console.log('API Response (purchased course IDs):', data);
+            
+            if (data.purchasedCourses && data.purchasedCourses.length > 0) {
+                // Now fetch the full details for each course
+                const fetchCoursePromises = data.purchasedCourses.map(courseId => 
+                    fetch(`http://localhost:3000/courses/${courseId}`)
+                        .then(res => res.json())
+                        .catch(err => {
+                            console.error(`Error fetching course ${courseId}:`, err);
+                            return null; // Return null for failed fetches
+                        })
+                );
+                
+                // Wait for all course detail requests to complete
+                return Promise.all(fetchCoursePromises);
             } else {
-                setPurchasedCourses([]);
+                return [];
             }
         })
+        .then(courseDetails => {
+            // Filter out any null results (failed fetches)
+            const validCourses = courseDetails.filter(course => course !== null);
+            console.log('Fetched course details:', validCourses);
+            setPurchasedCourses(validCourses);
+            setLoading(false);
+        })
         .catch(error => {
-            console.error('Error fetching purchased courses:', error);
+            console.error('Error in the fetch process:', error);
+            setLoading(false);
         });
-    }, []);
+    }, [token]);
     
     return (
         <div className='purchasedCoursesPage' style={{color: '#fff'}}>
@@ -53,17 +75,19 @@ function PurchasedCourses() {
                         All Courses
                     </button>
                     <button 
-                        className='purchasedCourses-btn active'
-                        onClick={() => navigate('/users/purchasedCourses')}>
+                        className='purchasedCourses-btn active'>
                         Purchased Courses
                     </button>
                 </div>
+                
                 <div className='courseCardContainer'>
-                    {purchasedCourses.length === 0 ? (
+                    {loading ? (
+                        <div>Loading your courses...</div>
+                    ) : purchasedCourses.length === 0 ? (
                         <div>No purchased courses available. Browse our catalog to find courses!</div>
                     ) : (
                         purchasedCourses.map((course) => (
-                            <div className='course-card' key={course._id || course.id || course.title}>
+                            <div className='course-card' key={course._id || course.id}>
                                 <img 
                                     src={course.image_link} 
                                     alt={`Thumbnail for ${course.title}`} 

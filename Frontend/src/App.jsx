@@ -9,6 +9,7 @@ import AllCourses from './Components/AllCourses/AllCourses.jsx';
 import CourseDetail from './Components/CourseDetail/CourseDetail.jsx';
 import HomePage from './Components/HomePage/HomePage.jsx';
 import PurchasedCourses from './Components/PurchasedCourses/PurchasedCourses.jsx';
+import PurchaseButton from './Components/PurchaseButton/PurchaseButton.jsx'
 
 function App() {
   const router = createBrowserRouter([

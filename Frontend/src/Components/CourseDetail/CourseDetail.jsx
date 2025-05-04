@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './CourseDetail.css'
+import PurchaseButton from '../PurchaseButton/PurchaseButton'
 
 function CourseDetail() {
     // Mock course data
@@ -45,7 +46,9 @@ function CourseDetail() {
                                 <div className='course-page-price-container'>
                                     <div className='course-pagePrice'>Price: ₹{course.price}</div>
                                 </div>
-                                <div className='course-pageBuyBtn'>Buy Now</div>
+                                <div className="purchase-section">
+                                    <PurchaseButton courseId={course._id} />
+                                </div>
                             </div>
                         </div>
                     </div>
