@@ -1,0 +1,137 @@
+/* Define color variables for easy maintenance */
+:root {
+    --accent-color: #90C67C; /* Primary accent color (e.g., buttons, links) */
+    --background-color: #181C14; /* Default background color */
+    --text-color: white; /* Default text color */
+  }
+  
+  /* Apply colors to common elements */
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+  
+  a, button {
+    color: var(--accent-color);
+  }
+  
+  button {
+    background-color: var(--accent-color);
+    color: #ffffff; /* Contrast text color for buttons */
+  }
+  
+  button:hover {
+    opacity: 0.9; /* Slight hover effect */
+  }
+
+  .intro-section{
+    background-image: url('https://images.unsplash.com/photo-1658487476833-f094aaf4a66c?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    height: 100vh;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .top-heading {
+    width: 70vw;
+    text-align: center;
+    line-height: 5rem;
+    font-size: 6rem;
+    margin-bottom: 3vh;
+    letter-spacing: -4px;
+    word-spacing: 10px;
+    /* Heavy background shadow with layered text-shadow */
+    text-shadow: 
+      4px 4px 20px rgba(0, 0, 0, 0.9), /* Stronger, closer shadow */
+      6px 6px 40px rgba(0, 0, 0, 0.8), /* Wider, softer shadow */
+      8px 8px 60px rgba(0, 0, 0, 0.7); /* Even wider for depth */
+  }
+
+  .top-description{
+    width: 50vw;
+    text-align: center;
+    font-size: 1rem;
+    /* Heavy background shadow with layered text-shadow */
+    text-shadow: 
+      4px 4px 20px rgba(0, 0, 0, 0.9), /* Stronger, closer shadow */
+      6px 6px 40px rgba(0, 0, 0, 0.8), /* Wider, softer shadow */
+      8px 8px 60px rgba(0, 0, 0, 0.7); /* Even wider for depth */
+  }
+
+  .top-btn{
+    cursor: pointer;
+    padding: 8px 16px;
+    margin-top: 5vh;
+    border-radius: 4px;
+    background-color: var(--accent-color);
+    color: black;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    transition: font-weight 0.2s ease-in-out;
+  }
+
+  .top-btn:hover{
+    font-weight: bold;
+  }
+
+  .populerCourse-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin: 10vh 0;
+}
+
+.populerCourses-heading,
+.aboutUs-heading{
+    font-size: 3rem;
+    letter-spacing: -2px;
+    word-spacing: 1rem;
+}
+
+.aboutUs-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.aboutUs-description{
+    font-size: 1rem;
+    width: 60vw;
+    text-align: center;
+    margin: 5vh 0;
+}
+
+.courseCardContainer{
+    margin-top: 5vh;
+}
+
+.adminLogin-heading{
+    font-size: 3rem;
+    letter-spacing: -2.5px;
+}
+
+.adminLoginBtn-container{
+    display: flex;
+    column-gap: 5vw;
+}
+
+.adminSignupBtn, .adminLoginBtn{
+    padding: 8px 16px;
+    margin-top: 5vh;
+    border-radius: 4px;
+    background-color: var(--accent-color);
+    color: black;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+
+}
+
+.adminLogin_section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10vh 0;
+}
