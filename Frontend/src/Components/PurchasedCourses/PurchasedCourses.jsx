@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from '../Header/Header';
+import './PurchasedCourses.css'
 
 function PurchasedCourses() {
     const [purchasedCourses, setPurchasedCourses] = useState([]);
@@ -65,7 +67,9 @@ function PurchasedCourses() {
     }, [token]);
     
     return (
+        <>
         <div className='purchasedCoursesPage' style={{color: '#fff'}}>
+        <Header></Header>
             <div className='purchasedCoursesPage-container'>
                 <h1 className='purchasedCourses-heading'>Courses</h1>
                 <div className='filterBtn'>
@@ -107,6 +111,7 @@ function PurchasedCourses() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

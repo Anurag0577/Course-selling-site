@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import './AllCourses.css'
+import Header from '../Header/Header'
 
 function AllCourses() {
     let [courses, setCourses] = useState([]);
@@ -43,7 +44,9 @@ function AllCourses() {
 
 
     return <>
+    
         <div className='allCoursePage' style={{color: '#fff'}}>
+        <Header></Header>
             <div className='allCoursePage-container'>
                 <div className='allCourse-heading'>Courses</div>
                 <div className='filterBtn'>

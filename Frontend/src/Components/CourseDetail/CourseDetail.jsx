@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './CourseDetail.css'
 import PurchaseButton from '../PurchaseButton/PurchaseButton'
+import Header from '../Header/Header';
 
 function CourseDetail() {
     // Mock course data
@@ -30,6 +31,7 @@ function CourseDetail() {
 
     return (
         <>
+        <Header></Header>
             <div className='course-page'>
                 <div className='course-page-title-container'>
                     <div className='course-page-title'>{course.title}</div>

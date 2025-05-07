@@ -1,9 +1,10 @@
 .allCoursePage{
-      background: #181C14;
+      background: black;
       padding: 0 7rem;
 }
 
 .allCoursePage-container{
+    margin-top: 120px;
     display: flex;
     flex-direction: column;
     align-items: center;

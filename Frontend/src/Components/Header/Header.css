@@ -1,0 +1,94 @@
+/* .header{
+    border: 2px solid #3C3D37;
+    width:  95%;
+    height: 80px;
+    border-radius: 8px;
+    margin: 0 auto;
+    margin-top: 1rem;
+
+} */
+
+.header {
+    /* border: 2px solid #3C3D37; */
+    width: 95%;
+    height: 80px;
+    border-radius: 8px;
+    margin-top: 1rem;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px); /* Safari support */
+  }
+
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    gap: 3rem;
+}
+
+.header-logo-image{
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-menu, .menu{
+    flex-grow: 1;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 2rem;
+    list-style-type: none;
+}
+
+.menu-element{
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.menu-element:hover{
+    transform: scale(1.05);
+}
+
+.logo-img{
+  width: 70%;
+}
+
+.header-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-signup-btn{
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.header-signup-btn:hover{
+    transform: scale(1.05);
+}
+
+.header-login-btn{
+    padding: 10px 25px;
+    background-color: #90C67C;
+    color: black;
+    text-align: center;
+    border-radius: 10px;
+    letter-spacing: -0.7px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.header-login-btn:hover{
+    transform: scale(1.05);
+}
+
+

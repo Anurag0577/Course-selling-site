@@ -2,6 +2,7 @@ import React from 'react'
 import {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import './HomePage.css'
+import Header from '../Header/Header'
 
 function HomePage() {
     let navigate = useNavigate();
@@ -41,6 +42,7 @@ function HomePage() {
 
     return (
         <>
+            <Header></Header>
             <div className='home-page'>
                 <div className='homepage-container'>
                     <div className='intro-section'>
