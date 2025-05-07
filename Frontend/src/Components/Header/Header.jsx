@@ -1,8 +1,34 @@
 import React from 'react'
 import './Header.css'
 import logo from '../../images/logo.png';
+import {useState, useEffect} from 'react'
+import jwtDecode from 'jwt-decode'
 
 function Header(){
+
+    const [username , setUsername] =useState('');
+    const [isUserLogin, setIsUserLogin] = useState(false)
+
+    useEffect(() => {
+        let token = localStorage.getItem('token');
+        let decodedToken = jwtDecode(token);
+        if (decodedToken && decodedToken.username) {
+            setIsUserLogin(true);
+            setUsername(decodedToken.username);
+          } else {
+            setIsUserLogin(false);
+            setUsername('');
+          }
+
+
+    }, [])
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+        setUsername('');
+        // You might want to redirect the user or update other state
+    };
 
     return(
         <>
@@ -18,10 +44,14 @@ function Header(){
                             {/* <li className='menu-element'></li> */}
                         </ul>
                     </div>
-                    <div className='header-button'>
+                    {(isUserLogin) ? (<div className='header-button'>
                         <div className='header-signup-btn'>Signup</div>
                         <div className='header-login-btn'>Login</div> 
-                    </div>
+                    </div>) : (
+                        <div className='header-user-intro'>Hi {username}</div>
+                        <div className='header-loginout-btn'>Login</div> 
+                    )}
+                    
                 </div>
             </div>
         </>
