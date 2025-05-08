@@ -90,8 +90,8 @@ Founded with a mission to bridge knowledge and opportunity, we’re here to supp
             <div className='adminLogin_section'>
                 <div className='adminLogin-heading'>Want to sell courses?</div>
                 <div className='adminLoginBtn-container'>
-                    <div className='adminSignupBtn'>Create Account</div>
-                    <div className='adminLoginBtn'>Login</div>
+                    <div className='adminSignupBtn' onClick={() => navigate('/admin/signup')}>Create Account</div>
+                    <div className='adminLoginBtn'onClick={() => navigate('/admin/login')}>Login</div>
                 </div>
             </div>
         </div>

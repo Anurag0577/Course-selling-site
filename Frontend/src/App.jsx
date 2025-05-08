@@ -32,6 +32,18 @@ function App() {
     {
       path: '/users/login',
       element: <Login />
+    },
+    {
+      path: '/users/signup',
+      element: <Signup />
+    },
+    {
+      path: '/admin/signup',
+      element: <Signup />
+    },
+    {
+      path: '/admin/login',
+      element: <Login />
     }
   ]);
 

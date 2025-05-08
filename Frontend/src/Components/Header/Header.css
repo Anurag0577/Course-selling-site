@@ -92,3 +92,25 @@
 }
 
 
+
+.header-greeting-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-logout-btn{
+    padding: 10px 25px;
+    background-color: #90C67C;
+    color: black;
+    text-align: center;
+    border-radius: 10px;
+    letter-spacing: -0.7px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.header-logout-btn:hover{
+    transform: scale(1.05);
+}

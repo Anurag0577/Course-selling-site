@@ -2,30 +2,38 @@ import React from 'react'
 import './Header.css'
 import logo from '../../images/logo.png';
 import {useState, useEffect} from 'react'
-import jwtDecode from 'jwt-decode'
+import {jwtDecode} from 'jwt-decode'
+import { useNavigate } from 'react-router-dom';
 
 function Header(){
 
     const [username , setUsername] =useState('');
     const [isUserLogin, setIsUserLogin] = useState(false)
+    const navigate = useNavigate();
 
     useEffect(() => {
         let token = localStorage.getItem('token');
-        let decodedToken = jwtDecode(token);
-        if (decodedToken && decodedToken.username) {
-            setIsUserLogin(true);
-            setUsername(decodedToken.username);
-          } else {
-            setIsUserLogin(false);
-            setUsername('');
-          }
-
-
-    }, [])
+        if (token) {
+            try {
+                let decodedToken = jwtDecode(token);
+                if (decodedToken && decodedToken.username) {
+                    setIsUserLogin(true);
+                    setUsername(decodedToken.username);
+                } else {
+                    setIsUserLogin(false);
+                    setUsername('');
+                }
+            } catch (error) {
+                // Handle decoding errors
+                setIsUserLogin(false);
+                setUsername('');
+            }
+        }
+    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        setIsLoggedIn(false);
+        setIsUserLogin(false);
         setUsername('');
         // You might want to redirect the user or update other state
     };
@@ -44,12 +52,14 @@ function Header(){
                             {/* <li className='menu-element'></li> */}
                         </ul>
                     </div>
-                    {(isUserLogin) ? (<div className='header-button'>
-                        <div className='header-signup-btn'>Signup</div>
-                        <div className='header-login-btn'>Login</div> 
+                    {(!isUserLogin) ? (<div className='header-button'>
+                        <div className='header-signup-btn' onClick={() => navigate('/users/signup')}>Signup</div>
+                        <div className='header-login-btn' onClick={() => navigate('/users/login')} >Login</div> 
                     </div>) : (
-                        <div className='header-user-intro'>Hi {username}</div>
-                        <div className='header-loginout-btn'>Login</div> 
+                        <div className='header-greeting-container'>
+                            <div className='header-user-intro'>Hi, {username}</div>
+                            <div className='header-logout-btn' onClick={handleLogout}>Logout</div> 
+                        </div>
                     )}
                     
                 </div>
