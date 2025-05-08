@@ -10,6 +10,8 @@ import CourseDetail from './Components/CourseDetail/CourseDetail.jsx';
 import HomePage from './Components/HomePage/HomePage.jsx';
 import PurchasedCourses from './Components/PurchasedCourses/PurchasedCourses.jsx';
 import PurchaseButton from './Components/PurchaseButton/PurchaseButton.jsx'
+import AdminLogin from './Components/AdminPages/Admin-login/AdminLogin.jsx';
+import AdminSignup from './Components/AdminPages/Admin-signup/AdminSignup.jsx';
 
 function App() {
   const router = createBrowserRouter([
@@ -38,12 +40,12 @@ function App() {
       element: <Signup />
     },
     {
-      path: '/admin/signup',
-      element: <Signup />
+      path: '/admin/login',
+      element: <AdminLogin />
     },
     {
-      path: '/admin/login',
-      element: <Login />
+      path: '/admin/signup',
+      element: <AdminSignup />
     }
   ]);
 
