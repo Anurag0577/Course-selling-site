@@ -302,6 +302,30 @@ app.get('/courses/:id', (req, res) => {
     })
 })
 
+// Add this route to your backend to check if a user already owns a course
+app.get('/users/courses/check/:courseId', authenticateUser, (req, res) => {
+    const courseId = req.params.courseId;
+    
+    user.findOne({username: req.user.username})
+        .then(currentUser => {
+            if (!currentUser) {
+                return res.status(404).json({message: 'User not found', owned: false});
+            }
+            
+            // Check if course is in user's purchased courses
+            const owned = currentUser.purchasedCourses.includes(courseId);
+            
+            res.status(200).json({
+                owned: owned,
+                message: owned ? 'User owns this course' : 'User does not own this course'
+            });
+        })
+        .catch(err => {
+            console.error('Error checking course ownership:', err);
+            res.status(500).json({message: "Failed to check course ownership", error: err.message, owned: false});
+        });
+});
+
 app.listen(PORT, () => {
     console.log('Server Started!');
 })
