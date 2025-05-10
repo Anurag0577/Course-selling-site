@@ -165,6 +165,14 @@ app.post('/admin/courses', authenticateUser,(req,  res) => {
     let newCourse = new course({title, description, price, image_link});
     newCourse.save()
     .then(savedCourses => {
+        // New code
+        let username = req.user;
+        admin.findOne('username'= username)
+        .then((response)=>{
+            response.createdCourses.push(savedCourses._id);
+            res.status(201).json({message: 'Pushed course id into createdCourses array.'})
+        })
+
         res.status(201).json({message: 'Course created successfully!', course: savedCourses})
     })
     .catch(error => res.status(500).json({message: "Information not saved!" , Error: err}))
@@ -240,7 +248,7 @@ app.get('/user/courses', authenticateUser, (req, res) => {
     .then(courses => {
         res.status(200).json(courses)
     })
-    .catch(err => res.status(500).json({message: 'Find request failed!', eerror: err.message}))
+    .catch(err => res.status(500).json({message: 'Find request failed!', error: err.message}))
 })
 
 app.post('/users/courses/:courseId', authenticateUser, (req, res) => {
