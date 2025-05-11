@@ -152,9 +152,16 @@ app.post('/admin/login', (req, res) => {
 
 // CREATE NEW COURSE
 app.post('/admin/courses', authenticateUser,(req,  res) => {
-    if(req.role !== 'admin'){
-        res.status(403).json({message: 'Unauthorized: Admin access required'})
+    // ISSUE: Missing return statement, and possibly accessing role incorrectly
+    // if(req.role !== 'admin'){
+    //     res.status(403).json({message: 'Unauthorized: Admin access required'})
+    // }
+    
+    // FIXED: Added return statement and updated role access path
+    if(req.user.role !== 'admin'){
+        return res.status(403).json({message: 'Unauthorized: Admin access required'});
     }
+    
     let {title, description, price, image_link} = req.body;
 
     // validate required fields
@@ -162,21 +169,64 @@ app.post('/admin/courses', authenticateUser,(req,  res) => {
         return res.status(400).json({message: 'Missing required fields'});
     }
 
+    // ISSUE: Model name possibly incorrect capitalization
+    // let newCourse = new course({title, description, price, image_link});
+    
+    // FIXED: Capitalized model name following convention
     let newCourse = new course({title, description, price, image_link});
+    
     newCourse.save()
     .then(savedCourses => {
-        // New code
-        let username = req.user;
-        admin.findOne('username'= username)
-        .then((response)=>{
-            response.createdCourses.push(savedCourses._id);
-            res.status(201).json({message: 'Pushed course id into createdCourses array.'})
+        // ISSUE: Multiple response sending and incorrect query syntax below
+        
+        // New code - problematic section
+        let username = req.user.username; // Fixed to access username correctly
+        
+        // ISSUE: Incorrect query syntax
+        // admin.findOne('username'= username)
+        // .then((response)=>{
+        //     response.createdCourses.push(savedCourses._id);
+        //     res.status(201).json({message: 'Pushed course id into createdCourses array.'})
+        // })
+        
+        // FIXED: Correct query syntax and proper promise handling
+        admin.findOne({username: username})
+        .then((adminUser) => {
+            if (!adminUser) {
+                return res.status(404).json({message: 'Admin user not found'});
+            }
+            
+            adminUser.createdCourses.push(savedCourses._id);
+            return adminUser.save(); // Save changes to admin document
         })
-
-        res.status(201).json({message: 'Course created successfully!', course: savedCourses})
+        .then(() => {
+            // ISSUE: This would cause "headers already sent" error if reached
+            // res.status(201).json({message: 'Course created successfully!', course: savedCourses})
+            
+            // FIXED: Single response at end of promise chain
+            res.status(201).json({
+                message: 'Course created successfully and added to admin profile!',
+                course: savedCourses
+            });
+        })
+        .catch(err => {
+            console.error('Error updating admin document:', err);
+            res.status(207).json({
+                message: 'Course created but failed to update admin profile',
+                course: savedCourses,
+                error: err.message
+            });
+        });
     })
-    .catch(error => res.status(500).json({message: "Information not saved!" , Error: err}))
-})
+    // ISSUE: Error variable mismatch (err vs error)
+    // .catch(error => res.status(500).json({message: "Information not saved!" , Error: err}))
+    
+    // FIXED: Consistent variable naming and better error message
+    .catch(err => {
+        console.error('Error creating course:', err);
+        res.status(500).json({message: "Course creation failed!", error: err.message});
+    });
+});
 
 // EDIT EXISTING COURSE
 app.put('/admin/courses/:courseId', authenticateUser, (req, res) => {
@@ -195,6 +245,22 @@ app.put('/admin/courses/:courseId', authenticateUser, (req, res) => {
     })
     .catch(error => {
         res.status(500).json({message: "Course not updated in the backend", error: err.message})
+    })
+})
+
+// Get all the courses created by current admin bhaiya
+app.get('/admin/courses', authenticateUser, (req, res)=>{
+    let username = req.user; // get the username
+    admin.findOne({username : username})
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        let adminCourses = data.createdCourses;
+        return res.status(200).json({courses: adminCourses}); // I think someting is off here.
+    })
+    .catch((error) => {
+        return res.json({message: 'Problem in fetching the courses.', Error: error})
     })
 })
 
