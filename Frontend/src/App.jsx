@@ -12,6 +12,7 @@ import PurchasedCourses from './Components/PurchasedCourses/PurchasedCourses.jsx
 import PurchaseButton from './Components/PurchaseButton/PurchaseButton.jsx'
 import AdminLogin from './Components/AdminPages/Admin-login/AdminLogin.jsx';
 import AdminSignup from './Components/AdminPages/Admin-signup/AdminSignup.jsx';
+import AdminCourses from './Components/AdminPages/Admin-courses/AdminCourses.jsx';
 
 function App() {
   const router = createBrowserRouter([
@@ -46,6 +47,10 @@ function App() {
     {
       path: '/admin/signup',
       element: <AdminSignup />
+    },
+    {
+      path: '/AdminCourses',
+      element: <AdminCourses />
     }
   ]);
 

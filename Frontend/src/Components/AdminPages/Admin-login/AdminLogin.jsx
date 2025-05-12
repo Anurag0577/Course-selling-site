@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import "../../login/Login.css"
 import { useNavigate } from 'react-router-dom';
+import AdminCourses from '../Admin-courses/AdminCourses';
 
 function AdminLogin() {
   let navigate = useNavigate();
