@@ -63,7 +63,7 @@ function AdminCourses(){
                                     <div className='admin-course-price'>element.price</div>
                                     <div className='admin-course-btn-container'>
                                         <div className='admin-course-edit-btn'>Edit</div>
-                                        <div className='admin-course-delete-btn'>Edit</div>
+                                        <div className='admin-course-delete-btn'>Delete</div>
                                     </div>
                                 </div>
                             </div>

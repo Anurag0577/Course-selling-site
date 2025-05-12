@@ -158,7 +158,7 @@ app.post('/admin/courses', authenticateUser,(req,  res) => {
     // }
     
     // FIXED: Added return statement and updated role access path
-    if(req.user.role !== 'admin'){
+    if(req.role !== 'admin'){
         return res.status(403).json({message: 'Unauthorized: Admin access required'});
     }
     
@@ -195,6 +195,7 @@ app.post('/admin/courses', authenticateUser,(req,  res) => {
             if (!adminUser) {
                 return res.status(404).json({message: 'Admin user not found'});
             }
+            console.log('admin found');
             
             adminUser.createdCourses.push(savedCourses._id);
             return adminUser.save(); // Save changes to admin document
@@ -250,17 +251,25 @@ app.put('/admin/courses/:courseId', authenticateUser, (req, res) => {
 
 // Get all the courses created by current admin bhaiya
 app.get('/admin/courses', authenticateUser, (req, res)=>{
-    let username = req.user; // get the username
+    let username = req.user.username; // get the username
     admin.findOne({username : username})
-    .then((response) => {
-        return response.json();
-    })
     .then((data) => {
-        let adminCourses = data.createdCourses;
-        return res.status(200).json({courses: adminCourses}); // I think someting is off here.
+        if(!data){
+            return res.json({message: "Admin not found!"})
+        }
+        let adminCoursesId = data.createdCourses;
+        console.log(adminCoursesId);
+        course.find({ _id : { $in: adminCoursesId }})
+        .then((adminCourses) => {
+            return res.status(200).json({courses: adminCourses});
+        })
+        .catch((error) => {
+            return res.status(500).json({ message: 'Error fetching courses.', error: error.message });
+        })
+        
     })
     .catch((error) => {
-        return res.json({message: 'Problem in fetching the courses.', Error: error})
+        return res.status(500).json({ message: 'Error fetching courses.', error: error.message });
     })
 })
 
