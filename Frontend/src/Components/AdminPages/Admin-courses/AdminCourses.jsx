@@ -41,13 +41,15 @@ function AdminCourses(){
         });
     }, [])
 
+    
+
     return (
         <div className='admin-course-page'>
             <Header></Header>
             <div className='admin-course-page-container'>
                 <div className='admin-course-heading'>My Courses</div>
                 <div className='add-new-course-container'>
-                    <div className='add-new-course-btn'>New Course</div> 
+                    <div className='add-new-course-btn' >New Course</div> 
                 </div>
                 <div className='admin-course-card-container'>
                     {(adminCourse.length <= 0) ? (
