@@ -4,12 +4,16 @@ import { useNavigate } from 'react-router-dom'
 import './AdminCourses.css'
 // import '../../Header/Header.jsx'
 import Header from '../../Header/Header.jsx';
+import AddCoursePopup from '../../AddCoursePopup/AddCoursePopup.jsx';
+import EditCoursePopup from '../../EditCoursePopup/EditCoursePopup.jsx';
 
 function AdminCourses(){
 
     // track the adminCourses array
-    let [adminCourse, setAdminCourse] = useState([]);
-    let navigate = useNavigate();
+    const [adminCourse, setAdminCourse] = useState([]);
+    const [showAddPopup, setShowAddPopup] = useState(false);
+    const [showEditPopup, setShowEditPopup] = useState(false);
+    const navigate = useNavigate();
 
     // When page load following code will run
     useEffect(()=>{
@@ -49,7 +53,7 @@ function AdminCourses(){
             <div className='admin-course-page-container'>
                 <div className='admin-course-heading'>My Courses</div>
                 <div className='add-new-course-container'>
-                    <div className='add-new-course-btn' >New Course</div> 
+                    <div className='add-new-course-btn' onClick={()=> setShowAddPopup(true)} >New Course</div> 
                 </div>
                 <div className='admin-course-card-container'>
                     {(adminCourse.length <= 0) ? (
@@ -57,14 +61,13 @@ function AdminCourses(){
                     ) : (
                         adminCourse.map((element) => (
                             <div className='admin-course-card'>
-                            {/* did not add src of the image. */}
                                 <img className='admin-course-card-img' src={element.image_link}></img> 
                                 <div className='admin-course-content-container'>
                                     <div className='admin-course-title'>{element.title}</div>
                                     <div className='admin-course-description'>{element.description}</div>
                                     <div className='admin-course-price'>Price: {element.price}</div>
                                     <div className='admin-course-btn-container'>
-                                        <div className='admin-course-edit-btn'>Edit</div>
+                                        <div className='admin-course-edit-btn'onClick={()=> showEditPopup} >Edit</div>
                                         <div className='admin-course-delete-btn'>Delete</div>
                                     </div>
                                 </div>
@@ -73,8 +76,10 @@ function AdminCourses(){
                     )}
                 </div>
             </div>
+            { showAddPopup && (<AddCoursePopup onClose= {()=>setShowAddPopup(false)}></AddCoursePopup>)}
+            { showEditPopup && (<EditCoursePopup onClose = {() => setShowEditPopup(false)}></EditCoursePopup>)}
+            
         </div>
     )
 }
-
 export default AdminCourses;

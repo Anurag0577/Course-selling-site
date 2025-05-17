@@ -1,14 +1,17 @@
 import React from 'react';
 import { useState, useEffect} from 'react'
 import { Form } from 'react-router-dom';
+import './AddCoursePopup.css'
+import { SyncLoader } from "react-spinners";
 
-function AddCoursePopup(){
+function AddCoursePopup( {onClose} ){
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     let [imgLink , setImgLink] = useState('');
     let [ title, setTitle ] = useState('');
     let [ description, setDescription] = useState('');
     let [ price , setPrice ] = useState('');
+    console.log(`this is random ${onClose}`)
 
     function addNewCourse(){
         setLoading(true);
@@ -54,6 +57,7 @@ function AddCoursePopup(){
         })
         .then((data) => {
             console.log('successfull!', data)
+            onClose();
         })
         .catch((error) => {
             setError(`Failed to add course: ${error.message}`);
@@ -65,24 +69,30 @@ function AddCoursePopup(){
     return (
         <div className='popup-container-bg'>
             <div className='popup-container'>
-                <div className='popup-heading'>New Course Details</div>
-            </div>
-            <div className='popup-content' >
-                <form className='add-course-form' onSubmit={addNewCourse} >
-                    <label id='image-id' htmlFor='image-input'  >Image Link</label>
-                    <input id='image-input' type='text'  value={imgLink} onChange={(e) => setImgLink(e.target.value)} style={{color : 'black'}}/>
+                <div className='close-btn' onClick={onClose}>X</div>
+                <div className='popup-content' >
+                    <div className='popup-heading'>New Course Details</div>
+                    <form className='add-course-form' onSubmit={addNewCourse} >
+                        <label id='image-id' htmlFor='image-input'  >Image Link</label>
+                        <input id='image-input' type='text'  value={imgLink} onChange={(e) => setImgLink(e.target.value)} style={{color : 'black'}}/>
 
-                    <label id='title-id' htmlFor='title-input'  >Title</label>
-                    <input id='title-input' type='text' value={title} onChange={(e) => setTitle(e.target.value)} style={{color : 'black'}}/>
+                        <label id='title-id' htmlFor='title-input'  >Title</label>
+                        <input id='title-input' type='text' value={title} onChange={(e) => setTitle(e.target.value)} style={{color : 'black'}}/>
 
-                    <label id='price-id' htmlFor='price-input'  >Price</label>
-                    <input id='price-input' type='number'  value={price} onChange={(e) => setPrice(e.target.value)} style={{color : 'black'}} />
+                        <label id='price-id' htmlFor='price-input'  >Price</label>
+                        <input id='price-input' type='number'  value={price} onChange={(e) => setPrice(e.target.value)} style={{color : 'black'}} />
 
-                    <label id='description-id' htmlFor='description-input'>Description </label>
-                    <input id='description-input' type='text' value={description} onChange={(e) => setDescription(e.target.value)} style={{color : 'black'}}/>
+                        <label id='description-id' htmlFor='description-input'>Description </label>
+                        <input id='description-input' type='text' value={description} onChange={(e) => setDescription(e.target.value)} style={{color : 'black'}}/>
 
-                    <button type='submit'>Add Course</button>
-                </form>
+                        <button type='submit' className='submit-btn'>{(loading)?(
+                            <p>Add</p>
+                        ) : (<SyncLoader
+                            loading={loading}
+                            size={150}
+                          />)} Add Course</button>
+                    </form>
+                </div>
             </div>
         </div>
     )
