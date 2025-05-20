@@ -22,6 +22,8 @@ h1, h2, h3, p, strong, small, h4, span{
     align-items: center;
     color: white;
     background: #181C14;
+    color: #ffffff;
+color: linear-gradient(90deg, rgba(255, 255, 255, 1) 44%, rgba(144, 198, 124, 1) 100%);
 }
 
 .login-form{

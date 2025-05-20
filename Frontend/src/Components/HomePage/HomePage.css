@@ -1,14 +1,13 @@
 /* Define color variables for easy maintenance */
 :root {
     --accent-color: #90C67C; /* Primary accent color (e.g., buttons, links) */
-    --background-color: black; /* Default background color */
-    --text-color: white; /* Default text color */
+    --background-color: #181C14; /* Default background color */
+ /* Default text color */
   }
   
   /* Apply colors to common elements */
   body {
     background-color: var(--background-color);
-    color: var(--text-color);
   }
   
   a, button {
@@ -24,41 +23,57 @@
     opacity: 0.9; /* Slight hover effect */
   }
 
-  .intro-section{
-    background-image: url('https://images.unsplash.com/photo-1658487476833-f094aaf4a66c?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  .intro-section {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                      url('https://images.unsplash.com/photo-1528818955841-a7f1425131b5?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
     height: 100vh;
     background-size: cover;
-    display: flex;
+    display
+
+: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
+    position: relative; /* Required for pseudo-element positioning */
+}
+
+.intro-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px; /* Adjust height for fade length */
+    background: linear-gradient(to bottom, transparent, #181C14 100%);
+    pointer-events: none; /* Prevents blocking interactions */
+}
 
   .top-heading {
     font-weight: bold;
     width: 70vw;
-    text-align: center;
     line-height: 5rem;
+    text-align: center;
     font-size: 6rem;
-    margin-bottom: 3vh;
+    padding-bottom: 3vh;
     letter-spacing: -4px;
     word-spacing: 10px;
-    /* Heavy background shadow with layered text-shadow */
-    text-shadow: 
-      4px 4px 20px rgba(0, 0, 0, 0.9), 
-      6px 6px 40px rgba(0, 0, 0, 0.8), 
-      8px 8px 60px rgba(0, 0, 0, 0.7); 
-  }
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(144, 198, 124, 1) 96%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
 
   .top-description{
     width: 50vw;
     text-align: center;
     font-size: 1rem;
+    color: #c1c1c1;
     /* Heavy background shadow with layered text-shadow */
     text-shadow: 
       4px 4px 20px rgba(0, 0, 0, 0.9), /* Stronger, closer shadow */
       6px 6px 40px rgba(0, 0, 0, 0.8), /* Wider, softer shadow */
       8px 8px 60px rgba(0, 0, 0, 0.7); /* Even wider for depth */
+    
   }
 
   .top-btn{
@@ -69,11 +84,11 @@
     background-color: var(--accent-color);
     color: black;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-    transition: font-weight 0.2s ease-in-out;
+    transition: transform 0.2s ease-in;
   }
 
   .top-btn:hover{
-    font-weight: bold;
+    transform: scale(1.02);
   }
 
   .populerCourse-section{
@@ -85,10 +100,16 @@
 }
 
 .populerCourses-heading,
+.adminLogin-heading,
 .aboutUs-heading{
-    font-size: 3rem;
-    letter-spacing: -2px;
-    word-spacing: 1rem;
+  font-weight: bold;
+  line-height: 5rem;
+  text-align: center;
+  font-size: 3rem;
+  padding-bottom: 2vh;
+  letter-spacing: -1px;
+  word-spacing: 10px;
+  color: white;
 }
 
 .aboutUs-section{
@@ -99,34 +120,41 @@
 }
 
 .aboutUs-description{
-    font-size: 1rem;
-    width: 60vw;
+
+    width: 80vw;
     text-align: center;
-    margin: 5vh 0;
+    color: #c1c1c1; 
 }
 
 .courseCardContainer{
-    margin-top: 5vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-rows: auto;
+  gap: 2rem;
 }
 
-.adminLogin-heading{
-    font-size: 3rem;
-    letter-spacing: -2.5px;
-}
 
 .adminLoginBtn-container{
     display: flex;
-    column-gap: 5vw;
+    column-gap: 1vw;
+    width: 100%;
 }
 
 .adminSignupBtn, .adminLoginBtn{
-    padding: 8px 16px;
-    margin-top: 5vh;
-    border-radius: 4px;
-    background-color: var(--accent-color);
-    color: black;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  padding: 2rem 1rem 1rem 1rem;
+    width: 50%;
+    border-radius: 10px;
+    border: 1px solid #3c3d37;
+    transition: all 0.2s ease-in;
+}
 
+.adminSignupBtn:hover, .adminLoginBtn:hover{
+    border: 3px solid #3c3d37;
+}
+
+.adminSignupBtn span, .adminLoginBtn span{
+  color: #c1c1c1;
 }
 
 .adminLogin_section{
@@ -135,4 +163,75 @@
     justify-content: center;
     align-items: center;
     margin: 10vh 0;
+    padding: 0 3rem;
+}
+
+
+.programming-topics-slider {
+  min-height: fit-content;
+  padding: 2rem 1rem;
+}
+
+.slider-container {
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.slider-track-container {
+  overflow: hidden;
+  padding: 0.5rem 0;
+}
+
+.slider-track {
+  display: flex;
+}
+
+.programming-topic-card {
+  background-color: transparent;
+  color: #d1d5db;
+  border: 1px solid #374151;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.375rem;
+  margin: 0 0.75rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.programming-topic-card:hover {
+  border-color: #6b7280;
+  color: #e5e7eb;
+}
+
+.programming-topic-card span {
+  font-weight: normal;
+  font-size: 0.875rem;
+}
+
+@keyframes scroll-left-animation {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+@keyframes scroll-right-animation {
+  0% {
+    transform: translateX(-33.333%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.scroll-left {
+  animation-name: scroll-left-animation;
+}
+
+.scroll-right {
+  animation-name: scroll-right-animation;
 }

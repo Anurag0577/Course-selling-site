@@ -1,6 +1,6 @@
 .allCoursePage{
       background: black;
-      padding: 0 7rem;
+      padding: 0 3rem;
 }
 
 .allCoursePage-container{
@@ -41,12 +41,12 @@
 }
 
 .courseCardContainer{
-    padding: 0 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    row-gap: 3rem;
-    margin-bottom: 3rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 300px));
+    grid-template-rows: auto;
+    gap: 2rem;
+    padding: 0 3rem;
 }
 
 
@@ -57,10 +57,7 @@
     flex-direction: column;
     border-radius: 10px;
     border: 2px solid #3C3D37;
-    padding: 5px;
-    overflow: hidden;
-    max-width: 24%; 
-    height: auto; 
+    padding: 0.5rem;
 }
 
 /* Image styling */
