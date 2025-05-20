@@ -1,5 +1,5 @@
 .allCoursePage{
-      background: black;
+      background: #181C14;
       padding: 0 3rem;
 }
 
@@ -22,22 +22,24 @@
     justify-content: left;
     column-gap: 2rem;
     margin: 2rem 0;
+    
 }
 
 .allCourses-btn, .purchasedCourses-btn{
-    padding: 10px 15px;
     background: #90C67C;
     color: black;
     text-align: center;
-    border-radius: 10px;
     /* font-weight: bold; */
     letter-spacing: -0.7px;
     cursor: pointer;
-    transition: background-color 0.2s ease ;
+    padding: 10px 25px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in;
 }
 
 .allCourses-btn:hover, .purchasedCourses-btn:hover{
-    background-color: #e4ffd9;
+    transform: scale(1.02);
 }
 
 .courseCardContainer{
@@ -131,4 +133,17 @@
 
 .courseBuyBtn:hover {
     background-color: #e4ffd9; /* Tailwind's blue-700 */
+}
+
+.button{
+    background: #90C67C;
+    color: black;
+    text-align: center;
+    /* font-weight: bold; */
+    letter-spacing: -0.7px;
+    cursor: pointer;
+    padding: 10px 25px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in;
 }

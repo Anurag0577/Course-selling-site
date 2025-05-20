@@ -48,7 +48,7 @@ function AdminLogin() {
       <div className="login-page">
         <div className="login-form">
           <div className="heading-container">
-            <div className="login-heading">Login to your account</div>
+            <div className="login-heading">Login As An Admin</div>
             <small className="login-description">Enter your credentials to login to your account</small>
           </div>
           <div className="form-container">
@@ -57,7 +57,7 @@ function AdminLogin() {
             <label htmlFor="pass-input" className="pass-label">Password</label>
             <input type="password" id="pass-input" value={password} onChange={(e) => setPassword(e.target.value)}/>
             <div className='login-btn' onClick={() => submitTodo()}>Login Account</div>
-            <small style={{display: 'block', textAlign: 'center', marginTop: "10px"}}>New to the website? <a style={{color: '#90C67C'}}>Create Account</a></small>
+            <small style={{display: 'block', textAlign: 'center', marginTop: "10px"}}>New to the website? <a onClick={()=> navigate('/admin/signup')} style={{color: '#90C67C', cursor: 'pointer'}}>Create Account</a></small>
           </div>
         </div>
       </div>

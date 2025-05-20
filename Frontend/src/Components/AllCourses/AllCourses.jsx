@@ -50,8 +50,8 @@ function AllCourses() {
             <div className='allCoursePage-container'>
                 <div className='allCourse-heading'>Courses</div>
                 <div className='filterBtn'>
-                    <div className='allCourses-btn'>All Courses</div>
-                    <div className='purchasedCourses-btn' onClick={()=> navigate('/users/purchasedCourses')} >Purchased Courses</div>
+                    <div className='allCourses-btn button'>All Courses</div>
+                    <div className='purchasedCourses-btn button' onClick={()=> navigate('/users/purchasedCourses')} >Purchased Courses</div>
                 </div>
                 <div className='courseCardContainer'>
                    { (courses.length === 0) ? (<div> No courses available!</div>) : 
@@ -63,7 +63,7 @@ function AllCourses() {
                                 <small className='courseDescription'>{course.description}</small>
                                 <div className='price-btn'>
                                     <div className='coursePrice'>Price: ${course.price}</div>
-                                            <div className='courseBuyBtn' onClick={() => viewCourse(course._id)}>View Details</div>
+                                            <div className='courseBuyBtn button' onClick={() => viewCourse(course._id)}>View Details</div>
                                 </div>
 
                             </div>

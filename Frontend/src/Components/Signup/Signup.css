@@ -11,9 +11,6 @@
 
 }
 
-h1, h2, h3, p, strong, small, h4, span{
-    color: white;
-}
 
 .signup-page{
     width: 100vw;
@@ -21,7 +18,7 @@ h1, h2, h3, p, strong, small, h4, span{
     display: flex;
     align-items: center;
     color: white;
-    background: #030712;
+    background: #181C14;
 }
 
 .signup-form{
@@ -61,13 +58,15 @@ h1, h2, h3, p, strong, small, h4, span{
     width: 100%;
     margin-top: 0.2rem;
     margin-bottom: 2rem;
+    color: black;
+    font-size: 16px;
 }
 
 input{
     padding: 15px;
     border: 1px solid #3C3D37;
     border-radius: 10px;
-}
+}    
 
 .signup-btn{
     padding: 15px;
@@ -77,5 +76,9 @@ input{
     border-radius: 10px;
     font-weight: bold;
     letter-spacing: -0.7px;
+    transition: all 0.2s ease-in;
 }
 
+.signup-btn:hover{
+    background-color: white;
+}

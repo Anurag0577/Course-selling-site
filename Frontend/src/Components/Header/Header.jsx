@@ -42,7 +42,7 @@ function Header(){
         <>
             <div className='header'>
                 <div className='header-container'>
-                    <div className='header-logo-image'>
+                    <div className='header-logo-image' onClick={() => navigate('/')}>
                         <img className='logo-img' src={logo} alt="logo" />
                     </div>
                     <div className='header-menu'>
@@ -53,12 +53,12 @@ function Header(){
                         </ul>
                     </div>
                     {(!isUserLogin) ? (<div className='header-button'>
-                        <div className='header-signup-btn' onClick={() => navigate('/users/signup')}>Signup</div>
-                        <div className='header-login-btn' onClick={() => navigate('/users/login')} >Login</div> 
+                        <div className='header-signup-btn button' onClick={() => navigate('/users/signup')}>Signup</div>
+                        <div className='header-login-btn button' onClick={() => navigate('/users/login')} >Login</div> 
                     </div>) : (
                         <div className='header-greeting-container'>
                             <div className='header-user-intro'>Hi, {username}</div>
-                            <div className='header-logout-btn' onClick={handleLogout}>Logout</div> 
+                            <div className='header-logout-btn button' onClick={handleLogout}>Logout</div> 
                         </div>
                     )}
                     

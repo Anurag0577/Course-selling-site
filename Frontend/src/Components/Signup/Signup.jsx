@@ -1,6 +1,8 @@
 import React from 'react'
 import {useState} from 'react'
 import './Signup.css'
+import { useNavigate } from 'react-router-dom';
+import Header from '../Header/Header';
 
 function Signup(){
 
@@ -8,8 +10,10 @@ function Signup(){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  let navigate = useNavigate();
+
   function createAccount(){
-    fetch('http://localhost:3000/admin/signup', {
+    fetch('http://localhost:3000/users/signup', {
       method: "POST",
       headers: {
         "Content-type" : "application/json"
@@ -55,7 +59,7 @@ function Signup(){
 
             <input type="password" id="pass-input" value = {password} onChange={(e) => setPassword(e.target.value)} />
             <div className='signup-btn' onClick={() => createAccount()}>Create Account</div>
-            <small style={{display: 'block', textAlign: 'center'}}>Already have an account? <a style={{color: '#90C67C'}}>Login</a></small>
+            <small style={{display: 'block', textAlign: 'center'}}>Already have an account? <a onClick={()=> navigate('/users/login')} style={{color: '#90C67C', cursor: 'pointer'}} >Login</a></small>
           </div>
         </div>
       </div>

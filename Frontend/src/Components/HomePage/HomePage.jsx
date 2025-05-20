@@ -124,7 +124,7 @@ function HomePage() {
                     <div className='intro-section'>
                         <div className='top-heading'>Learn anything, anytime, at your pace.</div>
                         <div className='top-description'>An engaging course marketplace loaded with diverse topics, interactive content, and easy progress tracking, built to empower you to explore and achieve your learning goals effortlessly.</div>
-                        <div className='top-btn' onClick={() => navigate('/courses') }>Explore Courses</div>
+                        <div className='top-btn button' onClick={() => navigate('/courses') }>Explore Courses</div>
                     </div>
                     <div className='scrollbar-section'>
                         <ProgrammingTopicsSlider />
@@ -141,7 +141,7 @@ function HomePage() {
                                 <small className='courseDescription'>{course.description}</small>
                                 <div className='price-btn'>
                                     <div className='coursePrice'>Price: ${course.price}</div>
-                                            <div className='courseBuyBtn' onClick={() => viewCourse(course._id)}>View Details</div>
+                                            <div className='courseBuyBtn button' onClick={() => viewCourse(course._id)}>View Details</div>
                                 </div>
 
                             </div>

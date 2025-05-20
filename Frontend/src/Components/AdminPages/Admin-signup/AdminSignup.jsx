@@ -1,12 +1,14 @@
 import React from 'react'
 import {useState} from 'react'
 import "../../Signup/Signup.css";
+import { useNavigate } from 'react-router-dom';
 
 function AdminSignup(){
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  let navigate = useNavigate();
 
   function createAccount(){
     fetch('http://localhost:3000/admin/signup', {
@@ -39,7 +41,7 @@ function AdminSignup(){
     <div className="signup-page">
         <div className="signup-form">
           <div className="heading-container">
-            <div className="signup-heading">Create an account</div>
+            <div className="signup-heading">Register As An Admin</div>
             <small className="signup-description">Enter your credentials to signup to your account</small>
           </div>
           <div className="form-container">
@@ -55,7 +57,7 @@ function AdminSignup(){
 
             <input type="password" id="pass-input" value = {password} onChange={(e) => setPassword(e.target.value)} />
             <div className='signup-btn' onClick={() => createAccount()}>Create Account</div>
-            <small style={{display: 'block', textAlign: 'center'}}>Already have an account? <a style={{color: '#90C67C'}}>Login</a></small>
+            <small style={{display: 'block', textAlign: 'center'}}>Already have an account? <a onClick={()=> navigate('/admin/login')} style={{color: '#90C67C', cursor: 'pointer'}}>Login</a></small>
           </div>
         </div>
       </div>

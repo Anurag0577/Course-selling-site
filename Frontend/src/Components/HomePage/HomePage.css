@@ -147,6 +147,7 @@
     border-radius: 10px;
     border: 1px solid #3c3d37;
     transition: all 0.2s ease-in;
+    cursor: pointer;
 }
 
 .adminSignupBtn:hover, .adminLoginBtn:hover{
@@ -234,4 +235,17 @@
 
 .scroll-right {
   animation-name: scroll-right-animation;
+}
+
+.button{
+  background: #90C67C;
+  color: black;
+  text-align: center;
+  /* font-weight: bold; */
+  letter-spacing: -0.7px;
+  cursor: pointer;
+  padding: 10px 25px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease-in;
 }
