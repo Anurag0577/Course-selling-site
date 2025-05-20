@@ -236,6 +236,7 @@ app.put('/admin/courses/:courseId', authenticateUser, (req, res) => {
     }
     let courseId = req.params.courseId;
     let updatedCourse = req.body;
+    console.log(updatedCourse);
     course.findOneAndUpdate({_id: courseId}, updatedCourse, {new : true})
     .then(updatedCourse => {
         if (!updatedCourse) {
@@ -248,6 +249,7 @@ app.put('/admin/courses/:courseId', authenticateUser, (req, res) => {
         res.status(500).json({message: "Course not updated in the backend", error: err.message})
     })
 })
+
 
 // Get all the courses created by current admin bhaiya
 app.get('/admin/courses', authenticateUser, (req, res)=>{
@@ -406,6 +408,47 @@ app.get('/users/courses/check/:courseId', authenticateUser, (req, res) => {
         .catch(err => {
             console.error('Error checking course ownership:', err);
             res.status(500).json({message: "Failed to check course ownership", error: err.message, owned: false});
+        });
+});
+
+// Delete course endpoint
+app.delete('/admin/courses/:courseId', authenticateUser, (req, res) => {
+    if(req.role !== 'admin'){
+        return res.status(403).json({message: 'Unauthorized: Admin access required'});
+    }
+    
+    const courseId = req.params.courseId;
+    
+    course.findByIdAndDelete(courseId)
+        .then((deletedCourse) => {
+            if (!deletedCourse) {
+                return res.status(404).json({message: 'Course not found'});
+            }
+            
+            // Remove course from admin's createdCourses array
+            const username = req.user.username;
+            return admin.findOneAndUpdate(
+                { username: username },
+                { $pull: { createdCourses: courseId } },
+                { new: true }
+            )
+            .then((updatedAdmin) => {
+                if (!updatedAdmin) {
+                    return res.status(404).json({
+                        message: 'Admin not found',
+                        course: deletedCourse
+                    });
+                }
+                
+                return res.status(200).json({
+                    message: 'Course deleted successfully',
+                    course: deletedCourse
+                });
+            });
+        })
+        .catch((error) => {
+            console.error('Deletion failed:', error);
+            return res.status(500).json({message: 'Failed to delete course', error: error.message});
         });
 });
 
